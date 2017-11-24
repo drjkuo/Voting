@@ -8,8 +8,10 @@
 
 <body class="container">
   <h1>Solar trading Application</h1>
+
   <div class="table-responsive">
-    <table class="table table-bordered">
+    <table class="table table-striped table-condensed table-bordered table-hover">
+      <caption>User status</caption>
       <thead>
         <tr>
           <th>IDs</th>
@@ -47,29 +49,15 @@
     </table>
   </div>
 
-  <div class="table-responsive records">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Buy or Sell</th>
-          <th>ID</th>
-          <th>Amount</th>
-          <th>Ether</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
-  </div>
-
   <div class="table-responsive">
-    <table class="table table-striped">
+    <table class="table table-striped table-condensed table-bordered table-hover">
+      <caption>Transaction history</caption>
       <thead>
         <tr>
-          <th>block#</th>
-          <th>from</th>
-          <th>to</th>
-          <th>input</th>
+          <th>From</th>
+          <th>To</th>
+          <th>Buy or sell</th>
+          <th>Amount</th>
         </tr>
       </thead>
       <tbody id="transactions">
@@ -101,5 +89,5 @@
 <!-- <script src="./web3.min.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
 <!-- <script src="./index.js"></script> -->
-<script src="./main.js"></script>
+<script src="./compiled.js"></script>
 </html>

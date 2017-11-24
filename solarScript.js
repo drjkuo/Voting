@@ -9,6 +9,8 @@ byteCode = compiledCode.contracts[':Solar'].bytecode;
 deployedContract = SolarContract.new({data: byteCode, from: web3.eth.accounts[0], gas: 4700000});
 contractInstance = SolarContract.at(deployedContract.address);
 
+// http://hypernephelist.com/2016/06/21/a-simple-smart-contract-ui-web3.html
+// browserify index.js -o compiled.js
 
 // contractInstance.sell(10, {from: web3.eth.accounts[1], value:web3.toWei(10, "ether"), gas:3000000})
 // '0x60a9b567bd11d545933e16ee4c8877978a7e227675d7011514d6500a5dd8b592'

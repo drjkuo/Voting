@@ -34,23 +34,23 @@ function getFunctionHashes(abi) {
 function findFunctionByHash(hashes, functionHash) {
   for (var i=0; i<hashes.length; i++) {
     if (hashes[i].hash.substring(0, 10) == functionHash.substring(0, 10))
-      return hashes[i].name;
+    return hashes[i].name;
   }
   return null;
 }
 
-function buySolar() {
+global.buySolar = function () {
   contractInstance.buy($(".buy [name=solarAmount]").val(), {from: web3.eth.accounts[$(".buy [name=id]").val()], value:web3.toWei($(".buy [name=ether]").val(), "ether"), gas:3000000});
 }
 
-function sellSolar() {
+global.sellSolar = function () {
   contractInstance.sell($(".sell [name=solarAmount]").val(), {from: web3.eth.accounts[$(".sell [name=id]").val()], value:web3.toWei($(".sell [name=ether]").val(), "ether"), gas:3000000});
 }
 
-function tradeSolar() {
-  contractInstance.buy(10, {from: web3.eth.accounts[2], value:web3.toWei(10, "ether"), gas:3000000});
-  contractInstance.sell(10, {from: web3.eth.accounts[1], value:web3.toWei(10, "ether"), gas:3000000});
-}
+// function tradeSolar() {
+//   contractInstance.buy(10, {from: web3.eth.accounts[2], value:web3.toWei(10, "ether"), gas:3000000});
+//   contractInstance.sell(10, {from: web3.eth.accounts[1], value:web3.toWei(10, "ether"), gas:3000000});
+// }
 
 
 
@@ -79,7 +79,7 @@ $(document).ready(function() {
     let address = web3.eth.accounts[i];
     $("#" + candidates[name]).html(address);
     let ether = web3.eth.getBalance(address).c[0];
-    $("#" + "ethers-" + name).html(ether);
+    $("#" + "ethers-" + name).html(ether/10000);
   }
 
   $('#transactions').empty();
@@ -90,14 +90,18 @@ $(document).ready(function() {
 
       let oneTransaction = (web3.eth.getTransaction(transactionHash));
       let functionName = findFunctionByHash(functionHashes, oneTransaction.input);
-      var inputData = SolidityCoder.decodeParams(["uint256"], oneTransaction.input.substring(10));
+      let inputData = SolidityCoder.decodeParams(["uint256"], oneTransaction.input.substring(10));
+      inputData[0] = (inputData[0] > 100)?  0 :  inputData[0];
       if (oneTransaction) {
-        $('#transactions').append('<tr><td>' +
-        inputData[0].toString() + '</td><td>' +
-        functionName + '</td><td>' +
+        $('#transactions').append
+        ('<tr><td>' +
         oneTransaction.from + '</td><td>' +
-        oneTransaction.to + '</td></tr>');
-      }    // console.log(oneTransaction);
-    }
+        oneTransaction.to + '</td><td>' +
+        functionName + '</td><td>' +
+        inputData[0].toString() +
+        '</td></tr>'
+        );
+    }    // console.log(oneTransaction);
   }
+}
 });
