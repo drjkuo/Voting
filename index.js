@@ -1,3 +1,4 @@
+// var SolidityCoder = require("./node_modules/web3/lib/solidity/coder.js");
 var SolidityCoder = require("web3/lib/solidity/coder.js");
 
 web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
@@ -89,10 +90,10 @@ $(document).ready(function() {
 
       let oneTransaction = (web3.eth.getTransaction(transactionHash));
       let functionName = findFunctionByHash(functionHashes, oneTransaction.input);
-      var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
+      var inputData = SolidityCoder.decodeParams(["uint256"], oneTransaction.input.substring(10));
       if (oneTransaction) {
         $('#transactions').append('<tr><td>' +
-        inputData[0].toString() + '</td><td>'
+        inputData[0].toString() + '</td><td>' +
         functionName + '</td><td>' +
         oneTransaction.from + '</td><td>' +
         oneTransaction.to + '</td></tr>');
