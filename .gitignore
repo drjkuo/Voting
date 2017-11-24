@@ -1,2 +1,3 @@
 node_modules
-solarScript.js
+./solarScript.js
+./compiled.js
