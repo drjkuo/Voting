@@ -5,6 +5,7 @@
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
 </head>
+
 <body class="container">
   <h1>Solar trading Application</h1>
   <div class="table-responsive">
@@ -45,16 +46,48 @@
       </tbody>
     </table>
   </div>
-  <form action="">
-    Buy or sale: <input type="text" name="buyOrSale">
-    ID: <input type="text" name="id">
-    Solar Amount: <input type="text" name="solarAmount">
-    Ether: <input type="text" name="ether">
-    <input type="submit" value="Submit" onclick="tradeSolar()">
-  </form>
+
+  <div class="table-responsive records">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Buy or Sell</th>
+          <th>ID</th>
+          <th>Amount</th>
+          <th>Ether</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="transactions"></div>
+
+  </div>
+  <!-- <form action="">
+  Buy or sale: <input type="text" name="buyOrSale">
+  ID: <input type="text" name="id">
+  Solar Amount: <input type="text" name="solarAmount">
+  Ether: <input type="text" name="ether">
+  <input type="submit" value="Submit" onclick="tradeSolar()">
+</form> -->
+  <div class="buy">
+    <button type="submit" class="btn btn-danger btn-xs" value="Buy" onclick="buySolar()">Buy</button>
+    <input type="text" name="id" placeholder="id">
+    <input type="text" name="solarAmount" placeholder="amount">
+    <input type="text" name="ether" placeholder="ether"><br>
+  </div>
+  <div class="sell">
+    <button type="submit" class="btn btn-danger btn-xs" value="Sell" onclick="sellSolar()">Sell</button>
+    <input type="text" name="id" placeholder="id">
+    <input type="text" name="solarAmount" placeholder="amount">
+    <input type="text" name="ether" placeholder="ether"><br>
+  </div>
 
 </body>
 <script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
+<!-- <script src="./web3.min.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
 <script src="./index.js"></script>
 </html>
