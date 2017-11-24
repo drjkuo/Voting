@@ -1,3 +1,5 @@
+var SolidityCoder = require("web3/lib/solidity/coder.js");
+
 web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 // update API for solar
 abi = JSON.parse('[{"constant":false,"inputs":[{"name":"amount","type":"uint256"}],"name":"buy","outputs":[{"name":"bought","type":"uint256"},{"name":"","type":"address"}],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[{"name":"b","type":"bool"}],"name":"getQueue","outputs":[{"components":[{"name":"amount","type":"uint256"},{"name":"price","type":"uint256"},{"name":"user","type":"address"}],"name":"ret","type":"tuple[]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"amount","type":"uint256"}],"name":"sell","outputs":[{"name":"sold","type":"uint256"},{"name":"","type":"address"}],"payable":true,"stateMutability":"payable","type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"value","type":"uint256"},{"indexed":false,"name":"amount","type":"uint256"},{"indexed":false,"name":"price","type":"uint256"}],"name":"PriceCalculated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"length","type":"uint256"}],"name":"showLength","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"s","type":"string"}],"name":"test","type":"event"}]')
@@ -87,9 +89,10 @@ $(document).ready(function() {
 
       let oneTransaction = (web3.eth.getTransaction(transactionHash));
       let functionName = findFunctionByHash(functionHashes, oneTransaction.input);
-
+      var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
       if (oneTransaction) {
         $('#transactions').append('<tr><td>' +
+        inputData[0].toString() + '</td><td>'
         functionName + '</td><td>' +
         oneTransaction.from + '</td><td>' +
         oneTransaction.to + '</td></tr>');
