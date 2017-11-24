@@ -6,6 +6,7 @@ VotingContract = web3.eth.contract(abi);
 contractInstance =  VotingContract.at('0x7e566b95cfdd9599634f7842d3a35f4a4729f10b');
 candidates = {"0": "candidate-0", "1": "candidate-1", "2": "candidate-2", "3": "candidate-3", "4": "candidate-4"}
 
+var functionHashes = getFunctionHashes(abi);
 // function voteForCandidate() {
 //   candidateName = $("#candidate").val();
 //   contractInstance.voteForCandidate(candidateName, {from: web3.eth.accounts[1]}, function() {
@@ -13,6 +14,27 @@ candidates = {"0": "candidate-0", "1": "candidate-1", "2": "candidate-2", "3": "
 //     $("#" + div_id).html(contractInstance.totalVotesFor.call(candidateName).toString());
 //   });
 // }
+
+function getFunctionHashes(abi) {
+  var hashes = [];
+  for (var i=0; i<abi.length; i++) {
+    var item = abi[i];
+    if (item.type != "function") continue;
+    var signature = item.name + "(" + item.inputs.map(function(input) {return input.type;}).join(",") + ")";
+    var hash = web3.sha3(signature);
+    console.log(item.name + '=' + hash);
+    hashes.push({name: item.name, hash: hash});
+  }
+  return hashes;
+}
+
+function findFunctionByHash(hashes, functionHash) {
+  for (var i=0; i<hashes.length; i++) {
+    if (hashes[i].hash.substring(0, 10) == functionHash.substring(0, 10))
+      return hashes[i].name;
+  }
+  return null;
+}
 
 function buySolar() {
   contractInstance.buy($(".buy [name=solarAmount]").val(), {from: web3.eth.accounts[$(".buy [name=id]").val()], value:web3.toWei($(".buy [name=ether]").val(), "ether"), gas:3000000});
@@ -62,12 +84,16 @@ $(document).ready(function() {
     if (web3.eth.getBlock(i).transactions.length > 0) {
       let transactionHash = web3.eth.getBlock(i).transactions[0];
       console.log(transactionHash);
-      let oneTransaction = (web3.eth.getTransaction(transactionHash)); //
+
+      let oneTransaction = (web3.eth.getTransaction(transactionHash));
+      let functionName = findFunctionByHash(functionHashes, oneTransaction.input);
+
       if (oneTransaction) {
-        // $('#transactions').append('<tr><td>' + oneTransaction.from + '</td><td>' + oneTransaction.to + '</td></tr>');
-        $('#transactions').append('<tr><td>' + JSON.stringify(oneTransaction) + '</td></tr>');
+        $('#transactions').append('<tr><td>' +
+        functionName + '</td><td>' +
+        oneTransaction.from + '</td><td>' +
+        oneTransaction.to + '</td></tr>');
       }    // console.log(oneTransaction);
-      //
     }
   }
 });
